@@ -1,0 +1,16 @@
+function doGet() {
+  const calendar = CalendarApp.getDefaultCalendar();
+  const now = new Date();
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+
+  const events = calendar.getEvents(start, end);
+  const schedules = events.map(event => ({
+    title: event.getTitle(),
+    startTime: event.getStartTime(),
+    endTime: event.getEndTime()
+  }));
+
+  const json = JSON.stringify(schedules);
+  return ContentService.createTextOutput(json).setMimeType(ContentService.MimeType.JSON);
+}
